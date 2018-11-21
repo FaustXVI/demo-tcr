@@ -1,5 +1,7 @@
 fun fizzBuzz(n: Int): String = if (n % 5 == 0) {
     "Buzz"
-} else {
+} else if (n == 3) {
     "Fizz"
+} else {
+    "1"
 }
