@@ -9,5 +9,10 @@ class FizzBuzzShould {
         assert(fizzBuzz(3)).isEqualTo("Fizz")
     }
 
+    @Test
+    fun buzzGiven5() {
+        assert(fizzBuzz(5)).isEqualTo("Buzz")
+    }
+
 }
 

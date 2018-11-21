@@ -13,8 +13,7 @@ function commit() {
     sync
     git add .
     git commit
-    # use ref
-    git tag -f lastRed
+    git update-ref lastRed HEAD
 }
 
 function revert() {
