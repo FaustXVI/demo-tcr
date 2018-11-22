@@ -25,6 +25,11 @@ class FizzBuzzShould {
     }
 
     @Test
+    fun FizzbuzzGiven30() {
+        assert(fizzBuzz(30)).isEqualTo("FizzBuzz")
+    }
+
+    @Test
     fun echoGiven1() {
         assert(fizzBuzz(1)).isEqualTo("1")
     }
