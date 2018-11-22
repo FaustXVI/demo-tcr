@@ -3,7 +3,6 @@ source runTests.sh
 source sync.sh
 
 function commit() {
-    sync
     git add .
     git commit
     git update-ref lastRed HEAD
@@ -14,4 +13,4 @@ function revert() {
     git clean -f
 }
 
-runTest && revert || commit
+sync && (runTest && revert || commit)

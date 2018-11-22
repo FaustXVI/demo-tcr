@@ -1,4 +1,4 @@
-fun fizzBuzz(n: Int): String = if (n == 30) {
+fun fizzBuzz(n: Int): String = if(n == 30 || n == 15){
     "FizzBuzz"
 } else if (n % 5 == 0) {
     "Buzz"
