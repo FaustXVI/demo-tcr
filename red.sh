@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
 source runTests.sh
-
-function sync() {
-    git stash push -m "Rebasing"
-    git fetch
-    git rebase -i --autosquash origin/master
-    git push
-    git stash pop
-}
+source sync.sh
 
 function commit() {
     sync
