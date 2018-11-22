@@ -12,7 +12,7 @@ function sync() {
     && runTest \
     && git push \
     && \
-    if [[ -z  `git stash list | grep "stash@{0}.*Rebasing"` ]]
+    if [[ ! -z  `git stash list | grep "stash@{0}.*Rebasing"` ]]
     then
         git stash pop
     fi
