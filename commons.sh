@@ -21,7 +21,7 @@ function commit() {
     elif isGettingGreen; then
         git commit --amend --no-edit
     else
-        git commit --allow-empty-message
+        git commit --allow-empty-message -m ""
     fi
 }
 
