@@ -6,21 +6,22 @@ function runTest() {
     ./gradlew test
 }
 
+function isRed(){
+    [[ ! -z `git diff | grep "^\+.*@Test"` ]]
+}
+
+function isGettingGreen(){
+    [[ ! -z `git diff ${BRANCH} HEAD` ]]
+}
+
 function commit() {
     git add . && \
-    if [[ -z `git diff ${BRANCH} HEAD` ]]
-    then
-        if [[ -z `git diff | grep "^\+.*@Test"` ]]
-        then
-            # refactor
-            git commit --allow-empty-message
-        else
-            # red
-            git commit
-        fi
-    else
-        # green
+    if isRed; then
+        git commit
+    elif isGettingGreen; then
         git commit --amend --no-edit
+    else
+        git commit --allow-empty-message
     fi
 }
 

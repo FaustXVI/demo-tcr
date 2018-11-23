@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-if [[ -z `git diff | grep "^\+.*@Test"` ]]
+source commons.sh
+
+if isRed
 then
-    ./green.sh
+    runTest && revert || commit
 else
-    ./red.sh
+    runTest && (commit && sync) || revert
 fi
