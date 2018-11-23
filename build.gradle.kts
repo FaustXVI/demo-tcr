@@ -1,3 +1,4 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 /*
@@ -23,4 +24,10 @@ dependencies {
     testCompile(kotlin("test-annotations-common", "1.3.10"))
     testCompile(kotlin("test-junit", "1.3.10"))
     testCompile("com.willowtreeapps.assertk:assertk-jvm:0.12")
+}
+
+(tasks.getByName("test") as Test).apply {
+    testLogging.apply {
+        exceptionFormat = TestExceptionFormat.FULL
+    }
 }
