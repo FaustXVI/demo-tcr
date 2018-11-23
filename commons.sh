@@ -10,8 +10,16 @@ function commit() {
     git add . && \
     if [[ -z `git diff ${BRANCH} HEAD` ]]
     then
-        git commit
+        if [[ -z `git diff | grep "^\+.*@Test"` ]]
+        then
+            # refactor
+            git commit --allow-empty-message
+        else
+            # red
+            git commit
+        fi
     else
+        # green
         git commit --amend --no-edit
     fi
 }
