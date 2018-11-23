@@ -1,6 +1,5 @@
 fun fizzBuzz(n: Int): String = when {
-    n == 14 -> "Bang"
-    n == 7 -> "Bang"
+    n == 7 || n == 14 -> "Bang"
     n % 15 == 0 -> "FizzBuzz"
     n % 5 == 0 -> "Buzz"
     n % 3 == 0 -> "Fizz"
