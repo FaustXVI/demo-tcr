@@ -5,19 +5,19 @@ function runTest() {
     ./gradlew test
 }
 
-function isRed(){
-    [[ ! -z `git diff | grep "^\+.*@Test"` ]]
+function shouldBeRed(){
+    [[ ! -z `git diff HEAD | grep "^\+.*@Test"` ]]
 }
 
-function isGettingGreen(){
+function shouldBecomeGreen(){
     [[ ! -z `git diff ${BRANCH} HEAD` ]]
 }
 
 function commit() {
     git add . && \
-    if isRed; then
+    if shouldBeRed; then
         git commit
-    elif isGettingGreen; then
+    elif shouldBecomeGreen; then
         git commit --amend --no-edit
     else
         git commit --allow-empty-message -m ""
@@ -35,7 +35,7 @@ function sync() {
     && git push
 }
 
-if isRed
+if shouldBeRed
 then
     runTest && revert || commit
 else
