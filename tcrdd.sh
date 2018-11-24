@@ -5,19 +5,19 @@ function runTest() {
     ./gradlew test
 }
 
-function shouldBeRed(){
+function testJustAdded(){
     [[ ! -z `git diff HEAD | grep "^\+.*@Test"` ]]
 }
 
-function shouldBecomeGreen(){
+function notSynchronisedYet(){
     [[ ! -z `git diff ${BRANCH} HEAD` ]]
 }
 
 function commit() {
     git add . && \
-    if shouldBeRed; then
+    if testJustAdded; then
         git commit
-    elif shouldBecomeGreen; then
+    elif notSynchronisedYet; then
         git commit --amend --no-edit
     else
         git commit --allow-empty-message -m ""
@@ -35,7 +35,29 @@ function sync() {
     && git push
 }
 
-if shouldBeRed
+KNOWN_AS_GREEN=false
+KNOWN_AS_RED=false
+
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case ${key} in
+        -g|--green)
+            KNOWN_AS_GREEN=true
+            shift
+            ;;
+        -r|--red)
+            KNOWN_AS_RED=true
+            shift
+            ;;
+        *)
+            shift
+            ;;
+    esac
+done
+
+if ${KNOWN_AS_RED} || (! ${KNOWN_AS_GREEN} && testJustAdded)
 then
     runTest && revert || commit
 else
