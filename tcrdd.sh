@@ -30,7 +30,7 @@ function revert() {
 }
 
 function sync() {
-    git rebase ${BRANCH} \
+    git pull --rebase \
     && runTest \
     && git push
 }
