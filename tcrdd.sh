@@ -18,7 +18,7 @@ function commit() {
     if testJustAdded; then
         git commit
     elif notSynchronisedYet; then
-        git commit --amend --no-edit
+        git commit --amend --no-edit --allow-empty-message
     else
         git commit --allow-empty-message -m ""
     fi
@@ -61,5 +61,6 @@ if ${KNOWN_AS_RED} || (! ${KNOWN_AS_GREEN} && testJustAdded)
 then
     runTest && revert || commit
 else
-    runTest && (commit && sync) || revert
+    runTest && commit || revert
 fi
+sync
