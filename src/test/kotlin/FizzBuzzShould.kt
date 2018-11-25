@@ -55,7 +55,7 @@ class FizzBuzzShould {
     }
 
     @Test
-    fun bangGiven35() {
+    fun buzzBangGiven35() {
         assert(fizzBuzz(35)).isEqualTo("BuzzBang")
     }
 
