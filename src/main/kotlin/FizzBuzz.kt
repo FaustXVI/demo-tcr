@@ -1,5 +1,3 @@
-import javax.swing.text.html.HTML.Tag.HEAD
-
 fun fizzBuzz(n: Int): String = when {
     n == 21 -> "FizzBang"
     n % 7 == 0 -> "Bang"
