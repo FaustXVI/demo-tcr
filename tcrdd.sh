@@ -9,7 +9,7 @@ function testJustAdded(){
     [[ ! -z `git diff HEAD | grep "^\+.*@Test"` ]]
 }
 
-function notSynchronisedYet(){
+function lastCommitRed(){
     [[ ! -z `git diff ${BRANCH} HEAD` ]]
 }
 
@@ -21,7 +21,7 @@ function commit() {
     git add . && \
     if testJustAdded; then
         git commit
-    elif notSynchronisedYet; then
+    elif lastCommitRed; then
         git commit --amend --no-edit --allow-empty-message
     else
         git commit --allow-empty-message -m ""
@@ -40,7 +40,7 @@ function pull(){
 }
 
 function push() {
-    if notSynchronisedYet; then
+    if lastCommitRed; then
         runTest && git push
     fi
 }
