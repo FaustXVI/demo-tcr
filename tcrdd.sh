@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-BRANCH=origin/master
+RED_REF=refs/isRed
 
 function runTest() {
     ./gradlew test
@@ -10,22 +10,31 @@ function testJustAdded(){
 }
 
 function lastCommitRed(){
-    [[ ! -z `git diff ${BRANCH} HEAD` ]]
+    [[ -z `git diff ${RED_REF} HEAD` ]]
 }
 
 function needsPull(){
     [[ -z `git fetch --dry-run` ]]
 }
 
-function commit() {
+function commitRed() {
     git add . && \
-    if testJustAdded; then
+    if lastCommitRed; then
+        git commit --amend
+    else
         git commit
-    elif lastCommitRed; then
-        git commit --amend --no-edit --allow-empty-message
+    fi && \
+    git update-ref ${RED_REF}
+}
+
+function commitGreen() {
+    git add . && \
+    if lastCommitRed; then
+        git commit --amend --no-edit
     else
         git commit --allow-empty-message -m ""
-    fi
+    fi && \
+    git update-ref -d ${RED_REF}
 }
 
 function revert() {
@@ -69,9 +78,9 @@ done
 
 if ${KNOWN_AS_RED} || (! ${KNOWN_AS_GREEN} && testJustAdded)
 then
-    runTest && revert || commit
+    runTest && revert || commitRed
     pull
 else
-    runTest && commit || revert
+    runTest && commitGreen || revert
     pull && push
 fi
