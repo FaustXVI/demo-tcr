@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 RED_REF=refs/isRed
+BRANCH=origin/master
 
 function runTest() {
     ./gradlew test
@@ -14,7 +15,11 @@ function lastCommitRed(){
 }
 
 function needsPull(){
-    [[ -z `git fetch --dry-run` ]]
+    [[ ! -z `git fetch --dry-run` ]]
+}
+
+function needsPush(){
+    [[ ! -z `git diff ${BRANCH} HEAD` ]]
 }
 
 function commitRed() {
@@ -49,7 +54,7 @@ function pull(){
 }
 
 function push() {
-    if lastCommitRed; then
+    if needsPush; then
         runTest && git push
     fi
 }
