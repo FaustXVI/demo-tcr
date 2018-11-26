@@ -19,7 +19,7 @@ function commitRed() {
     else
         git commit
     fi && \
-    git update-ref ${RED_REF}
+    git update-ref ${RED_REF} HEAD
 }
 
 function commitGreen() {
