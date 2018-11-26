@@ -14,7 +14,7 @@ function notSynchronisedYet(){
 }
 
 function needsPull(){
-    [[ ! -z `git fetch --dry-run` ]]
+    [[ -z `git fetch --dry-run` ]]
 }
 
 function commit() {
