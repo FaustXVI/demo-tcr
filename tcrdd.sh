@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 RED_REF=refs/isRed
-BRANCH=origin/master
 
 function runTest() {
     ./gradlew test
@@ -11,7 +10,7 @@ function testJustAdded(){
 }
 
 function lastCommitRed(){
-    [[ -z `git diff ${RED_REF} HEAD` ]]
+    [[ `git describe --all ${RED_REF} 2>/dev/null` && -z `git diff ${RED_REF} HEAD 2>/dev/null` ]]
 }
 
 function needsPull(){
@@ -19,7 +18,7 @@ function needsPull(){
 }
 
 function needsPush(){
-    [[ ! -z `git diff ${BRANCH} HEAD` ]]
+    [[ ! -z `git diff origin/HEAD HEAD` ]]
 }
 
 function commitRed() {
