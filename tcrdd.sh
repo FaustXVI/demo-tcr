@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
-RED_REF=refs/isRed
+
+TEST_KEYWORD="@Test"
 
 function runTest() {
     ./gradlew test
 }
 
 function testJustAdded(){
-    [[ ! -z `git diff HEAD | grep "^\+.*@Test"` ]]
+    [[ ! -z `git diff HEAD | grep "^\+.*${TEST_KEYWORD}"` ]]
 }
+
+RED_REF=refs/isRed
 
 function commitRed() {
     git add . && \
