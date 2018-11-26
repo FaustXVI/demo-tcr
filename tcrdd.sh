@@ -9,18 +9,6 @@ function testJustAdded(){
     [[ ! -z `git diff HEAD | grep "^\+.*@Test"` ]]
 }
 
-function lastCommitRed(){
-    [[ `git describe --all ${RED_REF} 2>/dev/null` && -z `git diff ${RED_REF} HEAD 2>/dev/null` ]]
-}
-
-function needsPull(){
-    [[ ! -z `git fetch --dry-run` ]]
-}
-
-function needsPush(){
-    [[ ! -z `git diff origin/HEAD HEAD` ]]
-}
-
 function commitRed() {
     git add . && \
     if lastCommitRed; then
@@ -41,6 +29,10 @@ function commitGreen() {
     git update-ref -d ${RED_REF}
 }
 
+function lastCommitRed(){
+    [[ `git describe --all ${RED_REF} 2>/dev/null` && -z `git diff ${RED_REF} HEAD 2>/dev/null` ]]
+}
+
 function revert() {
     git reset --hard
     git clean -f
@@ -52,11 +44,20 @@ function pull(){
     fi
 }
 
+function needsPull(){
+    [[ ! -z `git fetch --dry-run` ]]
+}
+
 function push() {
     if needsPush; then
         runTest && git push
     fi
 }
+
+function needsPush(){
+    [[ ! -z `git diff origin/HEAD HEAD` ]]
+}
+
 
 KNOWN_AS_GREEN=false
 KNOWN_AS_RED=false
