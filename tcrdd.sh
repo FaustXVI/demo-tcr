@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+BRANCH=origin/master
 TEST_KEYWORD="@Test"
 
 function runTest() {
@@ -58,7 +58,7 @@ function push() {
 }
 
 function needsPush(){
-    [[ ! -z `git diff origin/HEAD HEAD` ]]
+    [[ ! -z `git diff ${BRANCH} HEAD` ]]
 }
 
 
