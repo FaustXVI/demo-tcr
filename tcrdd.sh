@@ -13,6 +13,10 @@ function notSynchronisedYet(){
     [[ ! -z `git diff ${BRANCH} HEAD` ]]
 }
 
+function needsPull(){
+    [[ ! -z `git fetch --dry-run` ]]
+}
+
 function commit() {
     git add . && \
     if testJustAdded; then
@@ -29,10 +33,16 @@ function revert() {
     git clean -f
 }
 
-function sync() {
-    git pull --rebase \
-    && runTest \
-    && git push
+function pull(){
+    if needsPull; then
+        git pull --rebase
+    fi
+}
+
+function push() {
+    if notSynchronisedYet; then
+        runTest && git push
+    fi
 }
 
 KNOWN_AS_GREEN=false
@@ -60,7 +70,8 @@ done
 if ${KNOWN_AS_RED} || (! ${KNOWN_AS_GREEN} && testJustAdded)
 then
     runTest && revert || commit
+    pull
 else
     runTest && commit || revert
+    pull && push
 fi
-sync
